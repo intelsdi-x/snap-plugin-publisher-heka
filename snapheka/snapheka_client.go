@@ -8,9 +8,9 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"code.google.com/p/go-uuid/uuid"
 	"github.com/mozilla-services/heka/client"
 	"github.com/mozilla-services/heka/message"
+	"github.com/pborman/uuid"
 
 	"github.com/intelsdi-x/snap/control/plugin"
 )
@@ -66,7 +66,7 @@ func (shc *SnapHekaClient) sendToHeka(metrics []plugin.PluginMetricType) error {
 	for _, m := range metrics {
 		b, _, e := plugin.MarshalPluginMetricTypes(plugin.SnapJSONContentType, []plugin.PluginMetricType{m})
 		if e != nil {
-			logger.WithField("_block", "sendToHeka").Error("marshal metric error: %v", m)
+			logger.WithField("_block", "sendToHeka").Error("marshal metric error: ", m)
 			continue
 		}
 
