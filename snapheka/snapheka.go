@@ -37,7 +37,7 @@ const (
 	//vendor namespace part
 	vendor     = "intel"
 	pluginName = "heka"
-	version    = 3
+	version    = 4
 	pluginType = plugin.PublisherPluginType
 )
 
