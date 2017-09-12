@@ -2,8 +2,8 @@
 sudo: true
 language: go
 go:
-- 1.6.3
-- 1.7.3
+- 1.7.x
+- 1.8.x
 addons:
   apt:
     packages:
@@ -12,7 +12,7 @@ addons:
     - libgeoip-dev
     - protobuf-compiler
 services:
-  - docker
+- docker
 env:
   global:
   - ORG_PATH=/home/travis/gopath/src/github.com/intelsdi-x
@@ -20,10 +20,10 @@ env:
   matrix:
   - TEST=unit
   - TEST=integration
-  - TEST_TYPE=build
+  - TEST_TYPE: build
 matrix:
   exclude:
-  - go: 1.6.3
+  - go: 1.7.x
     env: TEST_TYPE=build
 before_install:
 - "[[ -d $SNAP_PLUGIN_SOURCE ]] || mkdir -p $ORG_PATH && ln -s $TRAVIS_BUILD_DIR $SNAP_PLUGIN_SOURCE"
@@ -41,41 +41,3 @@ notifications:
 before_deploy:
 - "./scripts/pre_deploy.sh"
 deploy:
-- provider: s3
-  access_key_id: AKIAINMB43VSSPFZISAA
-  secret_access_key:
-    secure: 7QXngtDKus/SMa3JYKTBkc4usMw4W2NfBPOd8LGkGIu8TyfGq89avWu4CFWQDEN4l62qBQNp5Vs2KRd7FQMhwd5faboq8j0OVe7IRMHBlaS+1BqfZmKZEEWsUJ6mEy/CFgkQIGqDxv9eoL3TjPgCevCXfvMuR1mV3VAqe2iZGROJDzwFzu5+b2bMwwOWq/cvl9ojfeQSXrZX1bu1hcl1AC1Y1w3p03vFj0K/9t87e+vU99G/0td1NDUjzcLpHoXZvoxlmGG9O6jCJAVTP5fLbu0ogWcrgzRhxyBz+jyZyemv3/ywFFG6y9H8UqoDB2MHmQxPUkzg99mkbzIXZdiG5gfRrv753TYlwX9Q0F5+XW9/QP+mx+eb05sQYAJzqaq0m53b2s5ylEyrFDGa3iVJGfuexgGlO2H6Lm4DihWkkxMAjdDdFDyADymv6pXyM41syvyyjdpR3mj2E6i0tPJnlNg+TNqhIj4Vzq8JsRcngmnXx4608S6Tc44zkwV+zBKhlnGC0B6eOht1ndVs7FVDvAgdV7bG75mjylm4CrNVYpL64uVXQlQogn9A0KpuqJqIfAAHYGv3hRVtpApUPGMgPaKrrYA9Hjjs3WeRdhxnwJQgacpY/1LC+3YDfefObmm2GKR8yWmF7ZU2p9N4UbS6jeFpStiwMAI5RpdgQE1THNo=
-  bucket: snap.ci.snap-telemetry.io
-  region: us-west-2
-  skip_cleanup: true
-  local-dir: s3
-  upload-dir: plugins
-  acl: public_read
-  on:
-    repo: intelsdi-x/snap-plugin-publisher-heka
-    branch: master
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
-- provider: s3
-  access_key_id: AKIAINMB43VSSPFZISAA
-  secret_access_key:
-    secure: 7QXngtDKus/SMa3JYKTBkc4usMw4W2NfBPOd8LGkGIu8TyfGq89avWu4CFWQDEN4l62qBQNp5Vs2KRd7FQMhwd5faboq8j0OVe7IRMHBlaS+1BqfZmKZEEWsUJ6mEy/CFgkQIGqDxv9eoL3TjPgCevCXfvMuR1mV3VAqe2iZGROJDzwFzu5+b2bMwwOWq/cvl9ojfeQSXrZX1bu1hcl1AC1Y1w3p03vFj0K/9t87e+vU99G/0td1NDUjzcLpHoXZvoxlmGG9O6jCJAVTP5fLbu0ogWcrgzRhxyBz+jyZyemv3/ywFFG6y9H8UqoDB2MHmQxPUkzg99mkbzIXZdiG5gfRrv753TYlwX9Q0F5+XW9/QP+mx+eb05sQYAJzqaq0m53b2s5ylEyrFDGa3iVJGfuexgGlO2H6Lm4DihWkkxMAjdDdFDyADymv6pXyM41syvyyjdpR3mj2E6i0tPJnlNg+TNqhIj4Vzq8JsRcngmnXx4608S6Tc44zkwV+zBKhlnGC0B6eOht1ndVs7FVDvAgdV7bG75mjylm4CrNVYpL64uVXQlQogn9A0KpuqJqIfAAHYGv3hRVtpApUPGMgPaKrrYA9Hjjs3WeRdhxnwJQgacpY/1LC+3YDfefObmm2GKR8yWmF7ZU2p9N4UbS6jeFpStiwMAI5RpdgQE1THNo=
-  bucket: snap.ci.snap-telemetry.io
-  region: us-west-2
-  skip_cleanup: true
-  local-dir: s3
-  upload-dir: plugins
-  acl: public_read
-  on:
-    repo: intelsdi-x/snap-plugin-publisher-heka
-    tags: true
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
-- provider: releases
-  api_key:
-    secure: ME2p0m9o5k5+EoN3kbKjPjnpwMNZGu66BdwR1tteRKXRaE4J2xFl7WeRqwvWZ51XMy2AsS0Ef6FeKkxbDKZnyTdsRuk3wWqCSX23suBJhTXS+DVCKRhXn66thN6kbDFZKGghTQeOrQCPJG7jIxzHdKXG6OgrguIrX8ijfgw0NHPLLN8qOXbmfB8bzi2OI1YwTdtZzmyFbp0u3FnC1T6jku+5mWvOWgcMaBeyVtEp/abNLENfLCmKEDzSAwmjljUx3D3mXUFhsz6JvWqxXG88CPmOwIJfZmLIaZTIOdkGh2y1eXUr/H9CXCJ5FTjIjPjAe9aeKdHuHwy8WJcUdVLYvWoA/QkvZqkOT8jU+5pB7j3PJ8kYpXkmYWaAr9nLYoARNtObVtowT5USSipdugsnMNafggvXRpCiLY8YVesZ7jNIyn+FAhxRE3NYD6ii0c2lBkXx26rO1YQHg2qeroBQuS6o2tsRv4iHMzZVzS06z82f+F2aZGIq0EQIoDBXC290WWH4wyK4TlGCwqvFf+kLkUeLpw2wsRUjh2Zic7rbhghBJm6Dk+OKg4s2DPqmOzyn/mYIyOD253Wb08KymzDhqnTxcWEDRoBF/+PlSEz2iik9vUryBulqzSybdiO+JJZiR+/TyMoDLNlppZCO30tzl4thbZKcvS0uixAO8IlH974=
-  file:
-    - release/snap-plugin-publisher-heka_linux_x86_64
-  skip_cleanup: true
-  on:
-    repo: intelsdi-x/snap-plugin-publisher-heka
-    tags: true
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
