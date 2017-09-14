@@ -3,7 +3,6 @@ sudo: true
 language: go
 go:
 - 1.7.x
-- 1.8.x
 addons:
   apt:
     packages:
@@ -22,10 +21,6 @@ env:
   - TEST=unit
   - TEST=integration
   - TEST_TYPE: build
-matrix:
-  exclude:
-  - go: 1.7.x
-    env: TEST_TYPE=build
 before_install:
 - "[[ -d $SNAP_PLUGIN_SOURCE ]] || mkdir -p $ORG_PATH && ln -s $TRAVIS_BUILD_DIR $SNAP_PLUGIN_SOURCE"
 install:
