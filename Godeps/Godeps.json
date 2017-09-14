@@ -96,7 +96,7 @@
 		},
 		{
 			"ImportPath": "github.com/mozilla-services/heka/message",
-			"Rev": "e8799385d16915a80b69061d05542da6342e58e4"
+			"Rev": "b0fb2c1c5ae88d05563feccae5e079da6bb91806"
 		},
 		{
 			"ImportPath": "github.com/pborman/uuid",
